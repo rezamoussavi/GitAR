@@ -1,0 +1,13 @@
+# GitAR line-ending policy
+
+* text=auto
+
+# Shell / executable files must use LF
+*.sh text eol=lf
+gitar text eol=lf
+
+# Configuration files
+*.conf text eol=lf
+
+# Documentation
+*.md text eol=lf

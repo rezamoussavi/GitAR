@@ -1,0 +1,77 @@
+#!/bin/bash
+# ==========================================
+# GitAR - Git Activity Reporter
+# Main Controller
+# ==========================================
+
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+
+# ------------------------------------------
+# Load configuration
+# ------------------------------------------
+
+source "$SCRIPT_DIR/config.sh"
+
+
+# ------------------------------------------
+# Load core libraries
+# ------------------------------------------
+
+source "$SCRIPT_DIR/config.sh"
+
+source "$SCRIPT_DIR/lib/colors.sh"
+source "$SCRIPT_DIR/lib/ui.sh"
+source "$SCRIPT_DIR/lib/helpers.sh"
+source "$SCRIPT_DIR/lib/sections.sh"
+source "$SCRIPT_DIR/lib/profiles.sh"
+source "$SCRIPT_DIR/lib/preflight.sh"
+source "$SCRIPT_DIR/lib/data.sh"
+source "$SCRIPT_DIR/lib/arguments.sh"
+
+# ------------------------------------------
+# Clean temporary report data automatically
+# ------------------------------------------
+
+trap data_cleanup EXIT
+
+# ------------------------------------------
+# Load default profile
+# ------------------------------------------
+
+profile_load_default || exit 1
+
+# ------------------------------------------
+# Process command-line options
+# ------------------------------------------
+
+parse_arguments "$@"
+
+
+# ------------------------------------------
+# Debug information
+# ------------------------------------------
+
+print_debug "Project directory: $SCRIPT_DIR"
+print_debug "Repository: $REPO_PATH"
+print_debug "Commit detail duration: $COMMITS_DAYS days"
+print_debug "Daily summary duration: $SUMMARY_DAYS days"
+print_debug "UI mode: $UI_MODE"
+print_debug "Sync enabled: $DO_SYNC"
+print_debug "Legend enabled: $SHOW_LEGEND"
+print_debug "Sections: ${SELECTED_SECTIONS[*]}"
+
+
+# ------------------------------------------
+# Validate environment
+# ------------------------------------------
+
+run_preflight_checks || exit 1
+
+
+# ------------------------------------------
+# Run report
+# ------------------------------------------
+
+run_selected_sections

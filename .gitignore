@@ -1,0 +1,36 @@
+# ==========================================
+# GitAR - Git Activity Reporter
+# ==========================================
+
+# Backup files
+*.bak
+*.backup
+*.backup.*
+*.orig
+*~
+
+# Development / migration backups
+*.pre-*
+*.syntax-error.*
+
+# Local/private profiles
+profiles/local.conf
+profiles/private-*.conf
+profiles/test-*.conf
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS metadata
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+
+# Logs
+*.log
