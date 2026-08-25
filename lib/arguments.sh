@@ -159,6 +159,11 @@ parse_arguments()
                 shift
                 ;;
 
+            --version)
+                printf 'GitAR %s\n' "$GITAR_VERSION"
+                exit 0
+                ;;
+
             --help|-h)
                 show_help
                 exit 0
@@ -196,6 +201,8 @@ Options:
   -p, --profile NAME          Load saved profiles from profiles/NAME.conf
       --defaults              Show default values and equivalent command
       --sync                  Enable repository synchronization
+      --version              Show GitAR version
+
 
 Examples:
   gitar
