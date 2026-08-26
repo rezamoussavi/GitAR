@@ -7,6 +7,9 @@
 
 ACTIVE_PROFILE="default"
 
+BUILTIN_PROFILE_DIR="$SCRIPT_DIR/profiles"
+USER_PROFILE_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/gitar/profiles"
+
 DEFAULT_REPO_PATH=""
 DEFAULT_COMMITS_DAYS=""
 DEFAULT_SUMMARY_DAYS=""
@@ -79,12 +82,42 @@ profile_parse_sections()
     return 0
 }
 
+profile_resolve_file()
+{
+    local profile_name="$1"
+
+    if [[ ! "$profile_name" =~ ^[A-Za-z0-9_-]+$ ]]; then
+        return 1
+    fi
+
+    # The default profile is always supplied by GitAR itself.
+    if [ "$profile_name" = "default" ]; then
+        if [ -f "$BUILTIN_PROFILE_DIR/default.conf" ]; then
+            printf '%s\n' "$BUILTIN_PROFILE_DIR/default.conf"
+            return 0
+        fi
+
+        return 1
+    fi
+
+    # User profiles take precedence over built-in profiles.
+    if [ -f "$USER_PROFILE_DIR/${profile_name}.conf" ]; then
+        printf '%s\n' "$USER_PROFILE_DIR/${profile_name}.conf"
+        return 0
+    fi
+
+    if [ -f "$BUILTIN_PROFILE_DIR/${profile_name}.conf" ]; then
+        printf '%s\n' "$BUILTIN_PROFILE_DIR/${profile_name}.conf"
+        return 0
+    fi
+
+    return 1
+}
 
 profile_apply_file()
 {
     local profile_name="$1"
-    local profile_file="$SCRIPT_DIR/profiles/${profile_name}.conf"
-
+    local profile_file=""
     local key
     local value
 
@@ -93,10 +126,10 @@ profile_apply_file()
         return 1
     fi
 
-    if [ ! -f "$profile_file" ]; then
+    profile_file="$(profile_resolve_file "$profile_name")" || {
         profile_error "Profile not found: $profile_name"
         return 1
-    fi
+    }
 
 
     while IFS='=' read -r key value
@@ -285,10 +318,13 @@ profile_list()
 {
     local file
     local name
+    local found_user=false
 
     printf 'Available profiles:\n'
+    printf '\n'
+    printf 'Built-in:\n'
 
-    for file in "$SCRIPT_DIR"/profiles/*.conf
+    for file in "$BUILTIN_PROFILE_DIR"/*.conf
     do
         [ -e "$file" ] || continue
 
@@ -300,8 +336,41 @@ profile_list()
             printf '  %s\n' "$name"
         fi
     done
-}
 
+    if [ -d "$USER_PROFILE_DIR" ]; then
+        for file in "$USER_PROFILE_DIR"/*.conf
+        do
+            [ -e "$file" ] || continue
+
+            if [ "$found_user" = false ]; then
+                printf '\n'
+                printf 'User profiles:\n'
+                found_user=true
+            fi
+
+            name="$(basename "$file" .conf)"
+
+            # User default.conf is intentionally not supported.
+            [ "$name" = "default" ] && continue
+
+            if [ -f "$BUILTIN_PROFILE_DIR/${name}.conf" ]; then
+                printf '  %-16s %s\n' "$name" '(overrides built-in)'
+            else
+                printf '  %s\n' "$name"
+            fi
+        done
+    fi
+
+    if [ "$found_user" = false ]; then
+        printf '\n'
+        printf 'User profiles:\n'
+        printf '  none\n'
+    fi
+
+    printf '\n'
+    printf 'User profile directory:\n'
+    printf '  %s\n' "$USER_PROFILE_DIR"
+}
 
 profile_show_defaults()
 {
@@ -348,5 +417,5 @@ profile_show_defaults()
     printf '\n'
 
     printf '\nDefault profile file:\n\n'
-    printf '  %s/profiles/default.conf\n' "$SCRIPT_DIR"
+    printf '  %s/default.conf\n' "$BUILTIN_PROFILE_DIR"
 }

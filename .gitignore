@@ -34,3 +34,6 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Managed installation marker
+.gitar-managed-install

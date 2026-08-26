@@ -35,6 +35,8 @@ source "$SCRIPT_DIR/lib/sections.sh"
 source "$SCRIPT_DIR/lib/profiles.sh"
 source "$SCRIPT_DIR/lib/preflight.sh"
 source "$SCRIPT_DIR/lib/data.sh"
+source "$SCRIPT_DIR/lib/update.sh"
+source "$SCRIPT_DIR/lib/doctor.sh"
 source "$SCRIPT_DIR/lib/arguments.sh"
 
 # ------------------------------------------
@@ -55,6 +57,11 @@ profile_load_default || exit 1
 
 parse_arguments "$@"
 
+# ------------------------------------------
+# Check for update
+# ------------------------------------------
+
+gitar_check_for_update
 
 # ------------------------------------------
 # Debug information

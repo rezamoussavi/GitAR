@@ -164,6 +164,16 @@ parse_arguments()
                 exit 0
                 ;;
 
+            --update)
+                gitar_update
+                exit $?
+                ;;
+
+            --doctor)
+                gitar_doctor
+                exit $?
+                ;;
+
             --help|-h)
                 show_help
                 exit 0
@@ -198,11 +208,13 @@ Options:
   -u, --ui MODE              UI mode: dots, normal, quiet
   -l, --legend               Show report legends (hidden by default)
       --no-legend            Hide report legends
-  -p, --profile NAME          Load saved profiles from profiles/NAME.conf
-      --defaults              Show default values and equivalent command
-      --sync                  Enable repository synchronization
-      --version              Show GitAR version
+  -p, --profile NAME         Load saved profiles from profiles/NAME.conf
 
+      --defaults             Show default values and equivalent command
+      --sync                 Enable repository synchronization
+      --doctor               Check GitAR installation and environment
+      --version              Show GitAR version
+      --update               Update a managed GitAR installation
 
 Examples:
   gitar

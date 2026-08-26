@@ -2,7 +2,8 @@
 
 set -u
 
-REPO_URL="https://github.com/rezamoussavi/GitAR.git"
+DEFAULT_REPO_URL="https://github.com/rezamoussavi/GitAR.git"
+REPO_URL="${GITAR_REPO_URL:-$DEFAULT_REPO_URL}"
 
 INSTALL_DIR="$HOME/.local/share/gitar"
 BIN_DIR="$HOME/.local/bin"
@@ -12,6 +13,10 @@ printf '\n'
 printf 'GitAR - Git Activity Reporter\n'
 printf 'Installer\n'
 printf '\n'
+
+if [[ "$REPO_URL" != "$DEFAULT_REPO_URL" ]]; then
+    printf '[DEV] Installation source: %s\n' "$REPO_URL"
+fi
 
 # --------------------------------------------------
 # Requirements
@@ -48,6 +53,15 @@ mkdir -p "$BIN_DIR" || {
     exit 1
 }
 
+USER_PROFILE_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/gitar/profiles"
+
+mkdir -p "$USER_PROFILE_DIR" || {
+    printf 'ERROR: Could not create the GitAR user profile directory.\n'
+    exit 1
+}
+
+printf '[OK] User profile directory ready\n'
+
 # --------------------------------------------------
 # Install / update application
 # --------------------------------------------------
@@ -78,6 +92,11 @@ else
         exit 1
     fi
 fi
+
+touch "$INSTALL_DIR/.gitar-managed-install" || {
+    printf 'ERROR: Could not mark the GitAR installation.\n'
+    exit 1
+}
 
 chmod +x "$INSTALL_DIR/gitar"
 

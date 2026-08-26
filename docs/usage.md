@@ -1,21 +1,41 @@
 # Usage
 
-## Default
+## Basic
+
+Run GitAR in the current Git repository:
 
 ```bash
 gitar
 ```
 
-## Help
+Help:
 
 ```bash
 gitar -h
 gitar --help
 ```
 
+Version:
+
+```bash
+gitar --version
+```
+
+Environment check:
+
+```bash
+gitar --doctor
+```
+
+Update a managed installation:
+
+```bash
+gitar --update
+```
+
 ## Profiles
 
-List profiles:
+List built-in and user profiles:
 
 ```bash
 gitar --profiles
@@ -28,13 +48,29 @@ gitar -p weekly
 gitar --profile detailed
 ```
 
-Show defaults:
+Show built-in defaults:
 
 ```bash
 gitar --defaults
 ```
 
+User profiles are stored in:
+
+```text
+~/.config/gitar/profiles/
+```
+
+or:
+
+```text
+$XDG_CONFIG_HOME/gitar/profiles/
+```
+
+User profiles take precedence over built-in profiles with the same name. The built-in `default` profile is always controlled by GitAR.
+
 ## Sections
+
+Run selected report sections:
 
 ```bash
 gitar -s commits
@@ -44,11 +80,13 @@ gitar -s header,commits,statistics
 
 Available sections:
 
-- header
-- sync
-- commits
-- daily-summary
-- statistics
+```text
+header
+sync
+commits
+daily-summary
+statistics
+```
 
 ## Durations
 
@@ -58,11 +96,9 @@ gitar -c 7
 gitar -y 14
 ```
 
-`-d` changes all time-based durations.
-
-`-c` controls detailed commits.
-
-`-y` controls daily summary and statistics.
+- `-d` sets all time-based durations.
+- `-c` sets commit-detail duration.
+- `-y` sets daily-summary and statistics duration.
 
 Durations are calendar-day windows including today.
 
@@ -81,15 +117,11 @@ Enable explicitly:
 gitar --sync
 ```
 
+GitAR uses conservative synchronization and avoids destructive merge behavior.
+
 ## Legend
 
-Hidden by default:
-
-```bash
-gitar
-```
-
-Show:
+Show the normally hidden legend:
 
 ```bash
 gitar -l
@@ -118,7 +150,7 @@ gitar -v
 
 ## Overrides
 
-Later arguments override earlier configuration.
+Later command-line arguments override earlier profile values.
 
 Example:
 
@@ -126,4 +158,4 @@ Example:
 gitar -p weekly -c 3
 ```
 
-loads the weekly profile and then changes the commit-detail duration to three calendar days.
+loads the `weekly` profile, then changes commit-detail duration to three calendar days.

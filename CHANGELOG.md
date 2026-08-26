@@ -4,6 +4,30 @@ All notable changes to GitAR will be documented in this file.
 
 The project follows semantic versioning where practical.
 
+## [0.2.0] - 2026-08-26
+
+### Added
+
+- One-command GitAR installer
+- Global `gitar` command installation
+- `gitar --version`
+- `gitar --doctor`
+- `gitar --update`
+- Monthly automatic update checks
+- Exact last-update-check timestamp
+- Managed-installation detection
+- External user profile directory
+- User profile precedence over built-in profiles
+- Safe uninstall script
+- Beginner-friendly non-repository guidance
+
+### Changed
+
+- Improved first-time onboarding
+- Reorganized README around simple installation and first use
+- User profiles are now stored outside the GitAR installation
+- Built-in profiles remain managed by GitAR
+
 ## [0.1.0] - 2026-08-25
 
 ### Added

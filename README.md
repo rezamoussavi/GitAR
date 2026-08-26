@@ -1,140 +1,95 @@
 # GitAR — Git Activity Reporter
 
-**GitAR** is a modular Bash command-line tool for generating readable Git activity reports.
+**GitAR** is a Bash command-line tool that turns Git history into a readable activity report.
 
-It combines detailed commit history, daily change summaries, repository synchronization, workload statistics, configurable time windows, and reusable profiles into a single report.
+It is designed for people who want useful Git reporting without working directly with long or complicated `git log` commands.
+
+GitAR can show:
+
+- recent commits
+- lines added and deleted
+- daily activity summaries
+- feature and fix activity
+- workload statistics
+- largest commits and development days
+- configurable reporting periods
+- reusable report profiles
 
 **Author:** Reza Moussavi  
-**Version:** 0.1.0  
 **License:** MIT
 
 ---
 
-## Features
+# Quick Start
 
-- Detailed commit activity with insertion/deletion counts
-- Color-coded change-size indicators
-- `feat:` and `fix:` commit highlighting
-- Daily Git activity summaries
-- Commit counts per active day
-- Aggregate development statistics
-- Largest commit and largest development day
-- Daily workload distribution
-- Safe Git fetch / fast-forward pull behavior
-- Configurable reporting periods
-- Reusable report profiles
-- Selectable report sections
-- Compact, normal, and quiet UI modes
-- Optional report legend
-- Verbose diagnostic mode
-- Shared Git data cache to avoid repeated history scans
+GitAR currently supports **Windows with Git Bash**.
+
+If you already have Git for Windows installed, Git Bash is normally included.
+
+## 1. Install GitAR
+
+Open **Git Bash** and run:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/rezamoussavi/GitAR/main/install.sh | bash
+```
+
+The installer:
+
+- downloads GitAR
+- installs the `gitar` command
+- makes it available from your terminal
+- prepares your personal profile directory
+
+If the installer asks you to open a new Git Bash terminal, close and reopen Git Bash before continuing.
 
 ---
 
-## Requirements
+## 2. Open Your Git Project
 
-GitAR currently requires:
-
-- Bash
-- Git
-- `awk`
-- standard Unix command-line utilities
-
-### Tested Platform
-
-GitAR `v0.1.0` has been tested with:
-
-- Windows
-- Git Bash
-
-Linux and macOS may work, but they have not yet been officially tested for this release.
-
----
-
-## Quick Start
-
-Clone the repository:
-
-```bash
-git clone https://github.com/rezamoussavi/GitAR.git
-cd GitAR
-```
-
-Make GitAR executable:
-
-```bash
-chmod +x gitar
-```
-
-Run it from inside a Git repository:
-
-```bash
-/path/to/GitAR/gitar
-```
-
-GitAR's default profile uses:
-
-```text
-repo_path=.
-```
-
-so the repository in your current working directory is analyzed.
-
----
-
-## Install as a Command
-
-To run GitAR simply as:
-
-```bash
-gitar
-```
-
-place it somewhere in your `PATH`, or create a symbolic link.
+Move into any Git repository.
 
 For example:
 
 ```bash
-mkdir -p ~/.local/bin
-ln -s /path/to/GitAR/gitar ~/.local/bin/gitar
+cd /path/to/your-project
 ```
-
-Ensure `~/.local/bin` is included in your `PATH`.
 
 ---
 
-## Default Report
-
-Running:
+## 3. Run GitAR
 
 ```bash
 gitar
 ```
 
-loads:
+That's it.
 
-```text
-profiles/default.conf
-```
+GitAR will generate a report for the Git repository in your current folder.
 
-The default profile controls:
+---
 
-- repository path
-- enabled report sections
-- detailed commit duration
-- daily summary duration
-- synchronization
-- legend visibility
-- UI mode
-- verbose mode
+# First-Time Help
 
-View the active defaults:
+Check that GitAR is installed correctly:
 
 ```bash
-gitar --defaults
+gitar --doctor
 ```
 
-List available profiles:
+Show the installed version:
+
+```bash
+gitar --version
+```
+
+Show command-line help:
+
+```bash
+gitar -h
+```
+
+List available report profiles:
 
 ```bash
 gitar --profiles
@@ -142,9 +97,18 @@ gitar --profiles
 
 ---
 
-## Example Report Sections
+# Example Output
 
-A default report may contain:
+A GitAR report may include sections such as:
+
+```text
+Timestamp         : 2026-08-26 01:10
+Repo              : .
+Last update check : 2026-08-26 01:02:53
+Customize         : gitar -h
+```
+
+Commit activity:
 
 ```text
 Commit Details (last 7 days)
@@ -153,7 +117,7 @@ Commit Details (last 7 days)
 2026-08-23 22:27 :   1,103 : feat: add analysis budget position presentation [+1097, -6]
 ```
 
-Daily summaries:
+Daily activity:
 
 ```text
 Daily Summary (last 14 days)
@@ -183,7 +147,121 @@ Average commits / day     : 4.30
 
 ---
 
-## Command-Line Options
+# Requirements
+
+GitAR currently requires:
+
+- Git
+- Bash
+- `awk`
+- standard Unix command-line utilities
+
+## Tested Platform
+
+The current release has been tested on:
+
+- Windows
+- Git Bash
+
+Native PowerShell is not currently supported.
+
+Linux and macOS may work, but they have not yet been officially tested.
+
+---
+
+# Updating GitAR
+
+GitAR can update installations created by `install.sh`.
+
+Run:
+
+```bash
+gitar --update
+```
+
+GitAR also performs a lightweight automatic update check at most once per calendar month.
+
+The automatic check:
+
+- does not install anything
+- does not interrupt your report
+- only checks whether a newer GitAR version may be available
+- records the exact time of the most recent check
+
+If an update is available, GitAR will tell you to run:
+
+```bash
+gitar --update
+```
+
+You can see the last automatic check using:
+
+```bash
+gitar --doctor
+```
+
+---
+
+# Uninstalling GitAR
+
+From a cloned GitAR repository, run:
+
+```bash
+./uninstall.sh
+```
+
+The uninstaller removes:
+
+- the installed GitAR application
+- the global `gitar` command
+- GitAR's update-check state
+
+Your personal profiles are preserved.
+
+This allows you to reinstall GitAR later without losing your configuration.
+
+## Remove Personal Profiles Too
+
+If you want to permanently remove your personal GitAR configuration as well:
+
+```bash
+rm -rf "${XDG_CONFIG_HOME:-$HOME/.config}/gitar"
+```
+
+**Warning:** this permanently removes your personal GitAR profiles.
+
+---
+
+# Default Report
+
+Running:
+
+```bash
+gitar
+```
+
+uses GitAR's built-in default profile.
+
+The default profile controls:
+
+- repository path
+- enabled report sections
+- detailed commit duration
+- daily summary duration
+- synchronization
+- legend visibility
+- UI mode
+- verbose mode
+
+View the default settings:
+
+```bash
+gitar --defaults
+```
+
+---
+
+# Command-Line Options
 
 Run:
 
@@ -206,11 +284,14 @@ gitar -n
 gitar -l
 gitar -v
 gitar -p weekly
+gitar --doctor
+gitar --version
+gitar --update
 ```
 
 ---
 
-## Report Sections
+# Report Sections
 
 Available sections:
 
@@ -230,7 +311,7 @@ gitar -s commits,daily-summary
 
 ---
 
-## Reporting Periods
+# Reporting Periods
 
 GitAR uses calendar-day windows including today.
 
@@ -264,65 +345,57 @@ Available duration controls include:
 
 ---
 
-## Profiles
+# Profiles
 
-Profiles are stored in:
+GitAR supports both built-in and personal profiles.
 
-```text
-profiles/
-```
-
-The default profile is:
-
-```text
-profiles/default.conf
-```
-
-Example:
-
-```text
-repo_path=.
-sections=header,sync,commits,daily-summary,statistics
-commits_days=7
-summary_days=14
-ui=dots
-sync=true
-legend=false
-verbose=false
-```
-
-Run another profile:
+List them with:
 
 ```bash
-gitar -p weekly
+gitar --profiles
 ```
 
-or:
+## Built-In Profiles
 
-```bash
-gitar --profile detailed
+GitAR includes:
+
+```text
+default
+weekly
+detailed
 ```
 
-Profiles inherit values from `default.conf` and only need to specify values they want to override.
+The built-in default profile is part of the GitAR installation.
 
-Command-line arguments specified after a profile override profile values:
+## Personal Profiles
 
-```bash
-gitar -p weekly -c 3
+Your own profiles are stored outside the GitAR installation:
+
+```text
+~/.config/gitar/profiles/
 ```
 
----
+or, when `XDG_CONFIG_HOME` is configured:
 
-## Repository-Specific Profiles
+```text
+$XDG_CONFIG_HOME/gitar/profiles/
+```
 
-You can create profiles for individual repositories.
+This keeps your own configuration safe when GitAR is updated.
 
-Example:
+Example personal profile:
 
 ```text
 repo_path=/path/to/project
 commits_days=14
 summary_days=30
+sync=false
+```
+
+Save it as:
+
+```text
+~/.config/gitar/profiles/my-project.conf
 ```
 
 Then run:
@@ -331,24 +404,50 @@ Then run:
 gitar -p my-project
 ```
 
-Private or machine-specific profiles can be excluded using:
-
-```text
-profiles/local.conf
-profiles/private-*.conf
-```
-
-which are ignored by Git by default.
+Personal profiles inherit unspecified values from GitAR's built-in default profile.
 
 ---
 
-## Repository Synchronization
+# Profile Precedence
+
+When loading a named profile, GitAR checks:
+
+```text
+1. Personal profile directory
+2. Built-in profile directory
+```
+
+This means a personal profile may intentionally override a built-in profile with the same name.
+
+For example:
+
+```text
+~/.config/gitar/profiles/weekly.conf
+```
+
+will override GitAR's built-in `weekly` profile.
+
+The built-in `default` profile cannot be replaced by a personal `default.conf`.
+
+Command-line arguments applied after a profile override the profile value.
+
+Example:
+
+```bash
+gitar -p weekly -c 3
+```
+
+loads the `weekly` profile, then changes the commit reporting period to 3 days.
+
+---
+
+# Repository Synchronization
 
 The `sync` section performs a conservative repository update:
 
-1. `git fetch --all`
+1. runs `git fetch --all`
 2. checks for uncommitted local changes
-3. skips automatic pull if local work is present
+3. skips automatic pull when local work is present
 4. otherwise attempts a fast-forward-only pull
 
 GitAR does not automatically merge divergent branches or overwrite local work.
@@ -367,7 +466,7 @@ gitar --no-sync
 
 ---
 
-## Legend
+# Legend
 
 The legend is hidden by default.
 
@@ -387,7 +486,7 @@ The legend also displays the GitAR author banner.
 
 ---
 
-## UI Modes
+# UI Modes
 
 Available modes:
 
@@ -405,9 +504,9 @@ gitar -u quiet
 
 ---
 
-## Verbose Mode
+# Verbose Mode
 
-For diagnostics:
+For diagnostic information:
 
 ```bash
 gitar -v
@@ -424,13 +523,31 @@ Verbose output includes information such as:
 
 ---
 
-## Architecture
+# Development Installation
 
-GitAR is designed as a small modular Bash project:
+If you prefer to clone and run GitAR manually instead of using the installer:
+
+```bash
+git clone https://github.com/rezamoussavi/GitAR.git
+cd GitAR
+chmod +x gitar
+./gitar
+```
+
+For normal users, the one-command installer is recommended.
+
+---
+
+# Architecture
+
+GitAR is designed as a modular Bash project:
 
 ```text
 GitAR/
 ├── gitar
+├── install.sh
+├── uninstall.sh
+├── VERSION
 ├── config.sh
 ├── lib/
 ├── sections/
@@ -438,11 +555,11 @@ GitAR/
 └── docs/
 ```
 
-### `gitar`
+## `gitar`
 
 Main controller and executable entry point.
 
-### `lib/`
+## `lib/`
 
 Shared infrastructure including:
 
@@ -451,17 +568,21 @@ Shared infrastructure including:
 - profiles
 - Git data normalization
 - preflight validation
+- update management
+- environment diagnostics
 - report section management
 
-### `sections/`
+## `sections/`
 
 Independent report components.
 
-### `profiles/`
+## `profiles/`
 
-Default and reusable report configurations.
+Built-in report profiles.
 
-### Data Layer
+User-created profiles are stored outside the installation.
+
+## Data Layer
 
 Git history is normalized into temporary tab-separated datasets.
 
@@ -471,7 +592,7 @@ Datasets are automatically removed when GitAR exits.
 
 ---
 
-## Contributing
+# Contributing
 
 Contributions are welcome.
 
@@ -485,7 +606,7 @@ before submitting issues or pull requests.
 
 ---
 
-## Security
+# Security
 
 Please do not report security vulnerabilities in public issues.
 
@@ -499,21 +620,21 @@ for reporting instructions.
 
 ---
 
-## Project Status
+# Project Status
 
-GitAR is currently at **v0.1.0**.
+GitAR is currently an early public release.
 
-The command-line interface, report formats, and profile format may evolve while the project gains wider testing and feedback.
+The command-line interface, report formats, installer behavior, and profile format may continue to evolve while the project gains wider testing and feedback.
 
 ---
 
-## Author
+# Author
 
 GitAR was created by **Reza Moussavi**.
 
 ---
 
-## License
+# License
 
 GitAR is released under the MIT License.
 

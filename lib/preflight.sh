@@ -38,8 +38,19 @@ preflight_check_repo_path()
 preflight_check_git_repo()
 {
     if ! git -C "$REPO_PATH" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-        ui_error "Configured repository path is not a Git repository:"
-        printf '  %s\n' "$REPO_PATH" >&2
+        printf '\n'
+        printf 'GitAR could not find a Git repository here.\n'
+        printf '\n'
+        printf 'Current location:\n'
+        printf '  %s\n' "$(pwd)"
+        printf '\n'
+        printf 'Move into the folder containing your Git project, for example:\n'
+        printf '\n'
+        printf '  cd /path/to/your-project\n'
+        printf '  gitar\n'
+        printf '\n'
+        printf 'Tip: a Git repository usually contains a hidden .git folder.\n'
+        printf '\n'
         return 1
     fi
 

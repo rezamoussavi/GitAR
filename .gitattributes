@@ -11,3 +11,5 @@ gitar text eol=lf
 
 # Documentation
 *.md text eol=lf
+
+VERSION text eol=lf
