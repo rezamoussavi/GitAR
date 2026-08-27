@@ -32,7 +32,7 @@ fi
 if ! command -v bash >/dev/null 2>&1; then
     printf 'ERROR: Bash was not found.\n'
     printf '\n'
-    printf 'GitAR currently requires Bash.\n'
+    printf 'GitAR requires Bash.\n'
     exit 1
 fi
 
@@ -114,7 +114,7 @@ chmod +x "$COMMAND_PATH"
 printf '[OK] GitAR command installed\n'
 
 # --------------------------------------------------
-# PATH setup
+# Shell / PATH setup
 # --------------------------------------------------
 
 case ":$PATH:" in
@@ -126,35 +126,77 @@ case ":$PATH:" in
         ;;
 esac
 
-BASHRC="$HOME/.bashrc"
-BASH_PROFILE="$HOME/.bash_profile"
+USER_SHELL="${SHELL:-}"
+SHELL_NAME="${USER_SHELL##*/}"
+SHELL_SOURCE=""
 
-touch "$BASHRC"
-touch "$BASH_PROFILE"
+case "$SHELL_NAME" in
+    zsh)
+        ZSHRC="$HOME/.zshrc"
+        touch "$ZSHRC"
 
-if [[ "$PATH_READY" == false ]]; then
-    if ! grep -Fq 'export PATH="$HOME/.local/bin:$PATH"' "$BASHRC"; then
-        {
-            printf '\n'
-            printf '# GitAR / user-local commands\n'
-            printf 'export PATH="$HOME/.local/bin:$PATH"\n'
-        } >> "$BASHRC"
+        if ! grep -Fq 'export PATH="$HOME/.local/bin:$PATH"' "$ZSHRC"; then
+            {
+                printf '\n'
+                printf '# GitAR / user-local commands\n'
+                printf 'export PATH="$HOME/.local/bin:$PATH"\n'
+            } >> "$ZSHRC"
 
-        printf '[OK] Added ~/.local/bin to Bash PATH\n'
-    fi
-fi
+            printf '[OK] Added ~/.local/bin to zsh PATH\n'
+        fi
 
-if ! grep -Fq 'source "$HOME/.bashrc"' "$BASH_PROFILE"; then
-    {
-        printf '\n'
-        printf '# Load Bash configuration\n'
-        printf 'if [[ -f "$HOME/.bashrc" ]]; then\n'
-        printf '    source "$HOME/.bashrc"\n'
-        printf 'fi\n'
-    } >> "$BASH_PROFILE"
+        SHELL_SOURCE="source ~/.zshrc"
+        ;;
 
-    printf '[OK] Configured Bash login startup\n'
-fi
+    bash)
+        BASHRC="$HOME/.bashrc"
+        BASH_PROFILE="$HOME/.bash_profile"
+
+        touch "$BASHRC"
+        touch "$BASH_PROFILE"
+
+        if ! grep -Fq 'export PATH="$HOME/.local/bin:$PATH"' "$BASHRC"; then
+            {
+                printf '\n'
+                printf '# GitAR / user-local commands\n'
+                printf 'export PATH="$HOME/.local/bin:$PATH"\n'
+            } >> "$BASHRC"
+
+            printf '[OK] Added ~/.local/bin to Bash PATH\n'
+        fi
+
+        if ! grep -Fq 'source "$HOME/.bashrc"' "$BASH_PROFILE"; then
+            {
+                printf '\n'
+                printf '# Load Bash configuration\n'
+                printf 'if [[ -f "$HOME/.bashrc" ]]; then\n'
+                printf '    source "$HOME/.bashrc"\n'
+                printf 'fi\n'
+            } >> "$BASH_PROFILE"
+
+            printf '[OK] Configured Bash login startup\n'
+        fi
+
+        SHELL_SOURCE="source ~/.bashrc"
+        ;;
+
+    *)
+        PROFILE="$HOME/.profile"
+        touch "$PROFILE"
+
+        if ! grep -Fq 'export PATH="$HOME/.local/bin:$PATH"' "$PROFILE"; then
+            {
+                printf '\n'
+                printf '# GitAR / user-local commands\n'
+                printf 'export PATH="$HOME/.local/bin:$PATH"\n'
+            } >> "$PROFILE"
+
+            printf '[OK] Added ~/.local/bin to shell PATH\n'
+        fi
+
+        SHELL_SOURCE="source ~/.profile"
+        ;;
+esac
 
 # --------------------------------------------------
 # Complete
@@ -176,13 +218,13 @@ if [[ "$PATH_READY" == true ]]; then
     printf '\n'
     printf '  gitar\n'
 else
-    printf 'Open a new Git Bash terminal, then run:\n'
+    printf 'Open a new terminal, then run:\n'
     printf '\n'
     printf '  gitar\n'
     printf '\n'
     printf 'Or enable it in this terminal now with:\n'
     printf '\n'
-    printf '  source ~/.bashrc\n'
+    printf '  %s\n' "$SHELL_SOURCE"
 fi
 
 printf '\n'
