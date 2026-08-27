@@ -4,6 +4,13 @@ All notable changes to GitAR will be documented in this file.
 
 The project follows semantic versioning where practical.
 
+## [0.2.1] - 2026-08-27
+
+### Fixed
+
+- Ensure GitAR is available automatically in new Git Bash sessions after installation.
+- Configure `.bash_profile` to load `.bashrc` when needed.
+
 ## [0.2.0] - 2026-08-26
 
 ### Added

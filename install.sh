@@ -126,11 +126,13 @@ case ":$PATH:" in
         ;;
 esac
 
+BASHRC="$HOME/.bashrc"
+BASH_PROFILE="$HOME/.bash_profile"
+
+touch "$BASHRC"
+touch "$BASH_PROFILE"
+
 if [[ "$PATH_READY" == false ]]; then
-    BASHRC="$HOME/.bashrc"
-
-    touch "$BASHRC"
-
     if ! grep -Fq 'export PATH="$HOME/.local/bin:$PATH"' "$BASHRC"; then
         {
             printf '\n'
@@ -140,6 +142,18 @@ if [[ "$PATH_READY" == false ]]; then
 
         printf '[OK] Added ~/.local/bin to Bash PATH\n'
     fi
+fi
+
+if ! grep -Fq 'source "$HOME/.bashrc"' "$BASH_PROFILE"; then
+    {
+        printf '\n'
+        printf '# Load Bash configuration\n'
+        printf 'if [[ -f "$HOME/.bashrc" ]]; then\n'
+        printf '    source "$HOME/.bashrc"\n'
+        printf 'fi\n'
+    } >> "$BASH_PROFILE"
+
+    printf '[OK] Configured Bash login startup\n'
 fi
 
 # --------------------------------------------------
