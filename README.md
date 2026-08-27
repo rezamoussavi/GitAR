@@ -24,7 +24,10 @@ GitAR can show:
 
 # Quick Start
 
-GitAR currently supports **Windows with Git Bash**.
+GitAR is currently tested on:
+
+- Windows with Git Bash
+- macOS with zsh
 
 If you already have Git for Windows installed, Git Bash is normally included.
 
