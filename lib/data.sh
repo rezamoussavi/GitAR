@@ -119,10 +119,21 @@ data_generate_commits()
 
     local since_date
 
-    since_date="$(date -d "$((duration - 1)) days ago" '+%Y-%m-%d 00:00:00')" || {
+    local days_back
+    days_back=$((duration - 1))
+
+    if date -d "1 day ago" '+%Y-%m-%d' >/dev/null 2>&1; then
+        # GNU date — Linux / Git Bash
+        since_date="$(date -d "$days_back days ago" '+%Y-%m-%d 00:00:00')"
+    else
+        # BSD date — macOS
+        since_date="$(date -v-"$days_back"d '+%Y-%m-%d 00:00:00')"
+    fi
+
+    if [[ -z "$since_date" ]]; then
         ui_error "Unable to calculate report start date."
         return 1
-    }
+    fi
 
     git -C "$REPO_PATH" log \
         --all \
