@@ -4,6 +4,8 @@
 
 It is designed for people who want useful Git reporting without working directly with long or complicated `git log` commands.
 
+GitAR is useful as a lightweight Git reporting CLI for reviewing commit history, Git activity, repository statistics, and recent development work from the terminal.
+
 GitAR can show:
 
 - recent commits
@@ -22,7 +24,10 @@ GitAR can show:
 
 # Quick Start
 
-GitAR currently supports **Windows with Git Bash**.
+GitAR is currently tested on:
+
+- Windows with Git Bash
+- macOS with zsh
 
 If you already have Git for Windows installed, Git Bash is normally included.
 

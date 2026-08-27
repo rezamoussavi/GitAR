@@ -4,6 +4,18 @@ All notable changes to GitAR will be documented in this file.
 
 The project follows semantic versioning where practical.
 
+## [0.3.0] - 2026-08-27
+
+### Added
+
+- macOS support with zsh
+- macOS installer PATH configuration
+
+### Fixed
+
+- Support BSD `date` used by macOS
+- Use shell-neutral installer instructions
+
 ## [0.2.1] - 2026-08-27
 
 ### Fixed
