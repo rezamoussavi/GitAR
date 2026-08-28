@@ -209,7 +209,7 @@ Usage:
 Common tasks:
   gitar                     Show your activity report
   gitar -d 30               Report the last 30 days
-  gitar -n                  Report without syncing
+  gitar -n                  Report without remote refresh
   gitar -p weekly           Use a saved profile
   gitar --doctor            Check your GitAR setup
   gitar --update            Update GitAR
@@ -248,8 +248,8 @@ Options:
   -c, --commits-days N       Set commit detail duration (default: 7)
   -y, --summary-days N       Set daily summary duration (default: 14)
 
-  -n, --no-sync              Skip repository synchronization
-      --sync                 Enable repository synchronization
+  -n, --no-sync              Skip remote refresh
+      --sync                 Refresh remote status with git fetch
 
   -u, --ui MODE              Set UI mode
                              Modes: dots, normal, quiet
@@ -290,7 +290,7 @@ Normal report:
 Last 30 days:
   gitar -d 30
 
-Report without syncing:
+Report without remote refresh:
   gitar -n
 
 Selected sections:

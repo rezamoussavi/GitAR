@@ -454,16 +454,35 @@ loads the `weekly` profile, then changes the commit reporting period to 3 days.
 
 # Repository Synchronization
 
-The `sync` section performs a conservative repository update:
+By default, GitAR may refresh remote information before reporting.
 
-1. runs `git fetch --all`
-2. checks for uncommitted local changes
-3. skips automatic pull when local work is present
-4. otherwise attempts a fast-forward-only pull
+GitAR uses:
 
-GitAR does not automatically merge divergent branches or overwrite local work.
+```bash
+git fetch
+```
 
-Disable synchronization:
+to update its knowledge of remote branches.
+
+GitAR does not automatically pull, merge, rebase, reset, or otherwise move your local branch.
+
+When a configured upstream is available, GitAR reports the relationship between your local branch and that upstream, such as:
+
+- up to date
+- ahead
+- behind
+- diverged
+
+GitAR can also report conditions such as:
+
+- no upstream configured
+- no remote configured
+- detached HEAD
+- local working-tree changes
+
+GitAR describes repository state without deciding how you should resolve it.
+
+Disable remote refresh with:
 
 ```bash
 gitar -n
@@ -474,6 +493,9 @@ or:
 ```bash
 gitar --no-sync
 ```
+
+The existing `sync` terminology is retained for compatibility.
+
 
 ---
 
