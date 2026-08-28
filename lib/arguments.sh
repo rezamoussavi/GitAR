@@ -174,6 +174,16 @@ parse_arguments()
                 exit $?
                 ;;
 
+            --options)
+                show_options
+                exit 0
+                ;;
+
+            --examples)
+                show_examples
+                exit 0
+                ;;
+
             --help|-h)
                 show_help
                 exit 0
@@ -191,62 +201,112 @@ parse_arguments()
 show_help()
 {
     cat <<'EOF'
-GitAR - Git Activity Reporter
+GitAR — readable Git activity reports
+
+Usage:
+  gitar [options]
+
+Common tasks:
+  gitar                     Show your activity report
+  gitar -d 30               Report the last 30 days
+  gitar -n                  Report without syncing
+  gitar -p weekly           Use a saved profile
+  gitar --doctor            Check your GitAR setup
+  gitar --update            Update GitAR
+
+Explore:
+  gitar --examples          See practical examples and how-tos
+  gitar --options           Show all options and arguments
+  gitar --profiles          See available profiles
+  gitar --defaults          See current defaults
+
+Need help?
+  Start with: gitar --examples
+EOF
+}
+
+show_options()
+{
+    cat <<'EOF'
+GitAR — all options and arguments
 
 Usage:
   gitar [options]
 
 Options:
-  -h, --help                 Show this help
-  -v, --verbose              Show diagnostic information
-  -s, --sections LIST        Run only selected sections
-                             Sections: header,sync,commits,daily-summary,statistics
-  -d, --days N               Set all time-based sections to N days
-  -c, --commits-days N       Set commit detail duration (default: 7)
-  -y, --summary-days N       Set daily summary duration (default: 14)
-  -n, --no-sync              Skip repository synchronization
-  -u, --ui MODE              UI mode: dots, normal, quiet
-  -l, --legend               Show report legends (hidden by default)
-      --no-legend            Hide report legends
-  -p, --profile NAME         Load saved profiles from profiles/NAME.conf
+  -h, --help                 Show quick help
+      --options              Show all options and arguments
+      --examples             Show practical examples and how-tos
 
-      --defaults             Show default values and equivalent command
+  -v, --verbose              Show diagnostic information
+
+  -s, --sections LIST        Run only selected sections
+                             Sections:
+                             header,sync,commits,daily-summary,statistics
+
+  -d, --days N               Set all time-based sections to N days
+  -c, --commits-days N       Set commit detail duration
+  -y, --summary-days N       Set daily summary duration
+
+  -n, --no-sync              Skip repository synchronization
       --sync                 Enable repository synchronization
+
+  -u, --ui MODE              Set UI mode
+                             Modes: dots, normal, quiet
+
+  -l, --legend               Show report legends
+      --no-legend            Hide report legends
+
+  -p, --profile NAME         Load a saved profile
+      --profiles             Show available profiles
+      --defaults             Show current defaults
+
       --doctor               Check GitAR installation and environment
       --version              Show GitAR version
       --update               Update a managed GitAR installation
 
-Examples:
-  gitar
-  gitar -l
-  gitar -s commits
-  gitar -s header,commits,daily-summary
-  gitar -d 30
-  gitar -d 30 -c 7
-  gitar -c 7 -y 30
-  gitar -n
-  gitar -u quiet
-  gitar -v -s commits
-  gitar -n -c 7 -y 30 -s header,commits,daily-summary
-
-Profiles:
-  Profiles are stored in git-report/profiles/*.conf.
-  default.conf defines the behavior of plain "gitar".
-  Other profiles inherit default.conf and override selected values.
-  CLI arguments override profile values when specified afterward.
-
-  Example:
-    gitar --profile weekly
-    gitar -p detailed
-    gitar -p weekly -c 3
-
-Defaults:
-  Run "gitar --defaults" to show all current defaults and the
-  explicit command equivalent to running "gitar" with no options.
-
-Notes:
+Behavior:
   --sections replaces the default section list.
   --no-sync disables sync even if sync is selected.
-  Later options override earlier ones, e.g. "-d 30 -c 7".
+  Later options override earlier ones.
+
+Profiles:
+  Named profiles may override default values.
+  CLI arguments specified after a profile override profile values.
+
+Examples:
+  Run "gitar --examples" for practical usage examples.
+EOF
+}
+
+show_examples()
+{
+    cat <<'EOF'
+GitAR — practical examples
+
+Normal report:
+  gitar
+
+Last 30 days:
+  gitar -d 30
+
+Report without syncing:
+  gitar -n
+
+Selected sections:
+  gitar -s commits
+  gitar -s header,commits,daily-summary
+
+Saved profile:
+  gitar -p weekly
+
+Check your setup:
+  gitar --doctor
+
+Show current defaults:
+  gitar --defaults
+
+More detail:
+  gitar --options
 EOF
 }
