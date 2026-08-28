@@ -14,6 +14,9 @@ The project follows semantic versioning where practical.
 
 ### Changed
 
+- Clarified GitAR's update-check status in the report header.
+- Moved the repository name into the repository-status heading.
+- `--no-sync` now preserves local repository status while skipping remote refresh.
 - Show the repository name in the report header instead of the configured path value.
 - Simplified `gitar -h` / `gitar --help` for quick beginner-oriented help.
 - GitAR now refreshes remote information with `git fetch` without automatically pulling or moving the local branch.

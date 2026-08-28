@@ -52,11 +52,6 @@ run_section()
     local section_name="$1"
     local function_name
 
-    if [ "$section_name" = "sync" ] && [ "$DO_SYNC" != true ]; then
-        print_debug "Skipping sync section because --no-sync was specified."
-        return 0
-    fi
-
     load_section "$section_name" || return 1
 
     function_name="$(section_function_name "$section_name")"
