@@ -245,8 +245,8 @@ Options:
                              header,sync,commits,daily-summary,statistics
 
   -d, --days N               Set all time-based sections to N days
-  -c, --commits-days N       Set commit detail duration
-  -y, --summary-days N       Set daily summary duration
+  -c, --commits-days N       Set commit detail duration (default: 7)
+  -y, --summary-days N       Set daily summary duration (default: 14)
 
   -n, --no-sync              Skip repository synchronization
       --sync                 Enable repository synchronization
@@ -254,7 +254,7 @@ Options:
   -u, --ui MODE              Set UI mode
                              Modes: dots, normal, quiet
 
-  -l, --legend               Show report legends
+  -l, --legend               Show report legends (hidden by default)
       --no-legend            Hide report legends
 
   -p, --profile NAME         Load a saved profile
