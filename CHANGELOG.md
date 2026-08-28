@@ -4,6 +4,21 @@ All notable changes to GitAR will be documented in this file.
 
 The project follows semantic versioning where practical.
 
+## Unreleased
+
+### Added
+
+- `gitar --options` for complete CLI option reference.
+- `gitar --examples` for practical task-oriented examples.
+- Repository relationship reporting after remote refresh.
+
+### Changed
+
+- Simplified `gitar -h` / `gitar --help` for quick beginner-oriented help.
+- GitAR now refreshes remote information with `git fetch` without automatically pulling or moving the local branch.
+- `--sync` now refreshes remote status; `--no-sync` prevents remote contact.
+
+
 ## [0.3.0] - 2026-08-27
 
 ### Added
