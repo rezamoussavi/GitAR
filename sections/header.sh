@@ -8,10 +8,8 @@ section_header()
 {
     local report_date
     local last_update_check=""
-    local repo_name=""
 
     report_date="$(date '+%Y-%m-%d %H:%M')"
-    repo_name="$(basename "$(git -C "$REPO_PATH" rev-parse --show-toplevel 2>/dev/null)")"
 
     if [[ -f "$SCRIPT_DIR/.gitar-managed-install" ]]; then
         last_update_check="$(gitar_last_update_check 2>/dev/null || true)"
@@ -61,10 +59,11 @@ section_header()
     # ------------------------------------------
 
     printf 'Timestamp : %s\n' "$report_date"
-    printf 'Repo      : %s\n' "$repo_name"
+
     if [[ -n "$last_update_check" ]]; then
-        printf 'Last update check : %s\n' "$last_update_check"
+        printf 'GitAR     : update checked %s\n' "$last_update_check"
     fi
+
     printf 'Customize : gitar -h\n'
 
     if [ "$ACTIVE_PROFILE" != "default" ]; then

@@ -8,6 +8,7 @@ section_sync()
 {
     local branch_name=""
     local upstream=""
+    local repo_name=""
     local ahead_count=0
     local behind_count=0
     local working_tree_status=""
@@ -19,6 +20,7 @@ section_sync()
     # ------------------------------------------
 
     branch_name="$(git -C "$REPO_PATH" symbolic-ref --quiet --short HEAD 2>/dev/null || true)"
+    repo_name="$(basename "$(git -C "$REPO_PATH" rev-parse --show-toplevel 2>/dev/null)")"
 
     working_tree_status="$(git -C "$REPO_PATH" status --porcelain 2>/dev/null || true)"
 
@@ -28,7 +30,7 @@ section_sync()
 
     remote_count="$(git -C "$REPO_PATH" remote 2>/dev/null | awk 'NF { count++ } END { print count + 0 }')"
 
-    printf '\nRepository\n'
+    printf '\nRepository %b%s%b\n' "$C_REVERSE" "$repo_name" "$C_RESET"
 
     if [ -n "$branch_name" ]; then
         printf '  Branch: %s\n' "$branch_name"
@@ -42,6 +44,15 @@ section_sync()
         printf '  Working tree: 1 changed file\n'
     else
         printf '  Working tree: %d changed files\n' "$modified_count"
+    fi
+
+    # ------------------------------------------
+    # Remote refresh disabled
+    # ------------------------------------------
+
+    if [ "$DO_SYNC" != true ]; then
+        printf '  Remote: refresh disabled\n'
+        return 0
     fi
 
     # ------------------------------------------
