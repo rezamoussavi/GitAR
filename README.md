@@ -88,10 +88,22 @@ Show the installed version:
 gitar --version
 ```
 
-Show command-line help:
+Show quick help:
 
 ```bash
 gitar -h
+```
+
+See practical examples and how-tos:
+
+```bash
+gitar --examples
+```
+
+Show the complete command reference:
+
+```bash
+gitar --options
 ```
 
 List available report profiles:
@@ -266,32 +278,26 @@ gitar --defaults
 
 ---
 
-# Command-Line Options
+# Command-Line Help
 
-Run:
+GitAR separates quick help, practical examples, and the complete option reference.
+
+For quick help:
 
 ```bash
 gitar -h
 ```
 
-for the complete command reference.
-
-Common examples:
+For practical examples and how-tos:
 
 ```bash
-gitar
-gitar -s commits
-gitar -s commits,daily-summary
-gitar -c 7
-gitar -y 30
-gitar -d 14
-gitar -n
-gitar -l
-gitar -v
-gitar -p weekly
-gitar --doctor
-gitar --version
-gitar --update
+gitar --examples
+```
+
+For the complete list of supported options and arguments:
+
+```bash
+gitar --options
 ```
 
 ---
