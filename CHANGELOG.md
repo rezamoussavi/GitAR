@@ -14,6 +14,7 @@ The project follows semantic versioning where practical.
 
 ### Changed
 
+- Show the repository name in the report header instead of the configured path value.
 - Simplified `gitar -h` / `gitar --help` for quick beginner-oriented help.
 - GitAR now refreshes remote information with `git fetch` without automatically pulling or moving the local branch.
 - `--sync` now refreshes remote status; `--no-sync` prevents remote contact.
