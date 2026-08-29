@@ -8,6 +8,7 @@ The project follows semantic versioning where practical.
 
 ### Added
 
+- Added GitAR logo and branding assets for repository documentation and social preview.
 - `gitar --options` for complete CLI option reference.
 - `gitar --examples` for practical task-oriented examples.
 - Repository relationship reporting after remote refresh.

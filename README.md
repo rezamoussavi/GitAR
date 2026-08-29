@@ -1,4 +1,8 @@
-# GitAR — Git Activity Reporter
+<p align="center">
+  <img src="assets/gitar-logo.png" alt="GitAR logo" width="220">
+</p>
+
+<h1 align="center">GitAR — Git Activity Reporter</h1>
 
 **GitAR** is a Bash command-line tool that turns Git history into a readable activity report.
 
