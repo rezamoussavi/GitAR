@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/gitar-logo.png" alt="GitAR logo" width="220">
+  <img src="assets/gitar-logo.png" alt="GitAR logo" width="120">
 </p>
 
 <h1 align="center">GitAR — Git Activity Reporter</h1>
